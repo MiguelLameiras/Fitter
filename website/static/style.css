@@ -1,0 +1,16 @@
+body {
+    background-color: #202124;
+}
+  
+h1 {
+    background-color: #F4B400;
+    color: #e8eaed;
+    margin-left: 0px;
+    padding: 20px;
+    font-size: 40px;
+}
+
+p {
+    background-color: #303134;
+    color: #9aa0a6;
+}

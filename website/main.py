@@ -1,4 +1,7 @@
 from flask import Flask, redirect, url_for, render_template
+import matplotlib.pyplot as plt
+import io
+import base64
 
 app = Flask(__name__)
 
@@ -25,12 +28,39 @@ def read(file_path):
 
   return leitura
 
-
-
 @app.route("/")
 def home():
+    return render_template("index.html")
+
+@app.route('/plot')
+def build_plot():
+    img = io.BytesIO()
+
     leitura = read("data.csv")
-    return render_template("index.html",content = leitura)
+
+    x,y = [],[]
+
+    for i in leitura:
+        for j in i[:-3]:
+                x.append(float(j))
+
+    for i in leitura:
+        for j in i[1:-2]:
+                y.append(float(j))           
+
+    print(x)
+    print(y)
+    plt.plot(x,y)
+    plt.savefig(img, format='png')
+    img.seek(0)
+
+    plot_url = base64.b64encode(img.getvalue()).decode()
+    
+    return render_template("plot.html", content = leitura, graph = plot_url)
+
+    #return '<img src="data:image/png;base64,{}">'.format(plot_url)
 
 if __name__ == "__main__":
     app.run(port=8100)
+
+
