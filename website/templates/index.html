@@ -1,0 +1,17 @@
+<html>
+    <head>
+        <title>Fitteia</title>
+    </head>
+    <body>
+        <h1>Fitteia 2.0</h1>
+        <p>The art of model fitting in python</p>
+        <p>Dados lidos no ficheiro: "data.csv"</p>
+            {% for i in content %}
+                <p style="margin : 0; padding-top:0;">
+                {% for j in i %}
+                    {{j}}&ensp;&ensp;
+                {% endfor%}
+                </p>
+            {% endfor %}
+    </body>
+</html>
