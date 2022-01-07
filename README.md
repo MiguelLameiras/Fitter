@@ -3,9 +3,11 @@ The art of fitting in python
 
 # Correr o site
 
-Instalar o Flask
+Dependencias
 ```
 pip install flask
+pip install matplotlib
+pip install numpy
 ```
 
 Correr a app
