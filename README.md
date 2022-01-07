@@ -14,7 +14,7 @@ python3 main.py
 ```
 No browser colocar
 ```
-http://127.0.0.1:5000/
+http://127.0.0.1:8100/
 (Ctrl + C) no terminal para parar
 ```
 
