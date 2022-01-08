@@ -10,15 +10,15 @@
 <body>
     <h1>Fitteia 2.0</h1>
     <p>The art of model fitting in python</p>
-    <p>
-        <a href=plot >
-            <button style="height:75px;width:150px">Fittar Excel</button>
-        </a>
-    </p>
-    <form method="POST">
+    <form method="POST" action="/plot_excel" enctype="multipart/form-data">
+        <p>Fittar Dados a partir de ficheiro csv</p>
+        <p><input type="file" name="file"></p>
+        <p><input type="submit" value="Submeter Ficheiro"></p>
+    </form>
+    <form method="POST" action="/plot_data" >
         <p>Fittar Dados</p>
         <input name="data">
-        <input type="submit">
+        <input type="submit" value="Submeter Dados">
     </form>
 </body>
 
