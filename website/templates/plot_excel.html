@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Fitteia</title>
+</head>
+
+<body>
+    <h1>Fitteia 2.0</h1>
+    <img src="data:image/jpeg;base64,{{ graph }}" alt="graph"  id="imgslot"/></img>
+    <p>Dados lidos no ficheiro: "data.csv"</p>
+        {% for i in content %}
+            <p style="margin : 0; padding-top:0;">
+            {% for j in i %}
+                {{j}}&ensp;&ensp;
+            {% endfor%}
+            </p>
+        {% endfor %}
+</body>
+
+</html>
