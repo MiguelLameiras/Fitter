@@ -13,10 +13,11 @@ Correr a app
 ```
 python3 main.py
 ```
-No browser colocar
+Para fechar o server: (Ctrl + C) no terminal 
+
+Link do Server Local
 ```
-http://127.0.0.1:8100/
-(Ctrl + C) no terminal para parar
+http://127.0.0.1:5000/
 ```
 
 
