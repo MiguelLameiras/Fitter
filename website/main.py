@@ -44,7 +44,7 @@ def dados_input():
     x,y = [],[]
 
     num_cols = 4
-    length = int((len(dados))/num_cols-num_cols)
+    length = int((len(dados))/num_cols)
     for i in range(0,length):
         for j in range(0,4):
             if (j == 0):
