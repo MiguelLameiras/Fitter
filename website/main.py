@@ -48,8 +48,6 @@ def build_plot():
         for j in i[1:-2]:
                 y.append(float(j))           
 
-    print(x)
-    print(y)
     plt.plot(x,y)
     plt.savefig(img, format='png')
     img.seek(0)
@@ -57,8 +55,6 @@ def build_plot():
     plot_url = base64.b64encode(img.getvalue()).decode()
     
     return render_template("plot.html", content = leitura, graph = plot_url)
-
-    #return '<img src="data:image/png;base64,{}">'.format(plot_url)
 
 if __name__ == "__main__":
     app.run(port=8100)
