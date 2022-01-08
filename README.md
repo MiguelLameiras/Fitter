@@ -6,6 +6,7 @@ The art of fitting in python
 Instalar o Flask
 ```
 pip install flask
+pip install matplotlib
 ```
 
 Correr a app
