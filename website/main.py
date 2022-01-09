@@ -5,6 +5,8 @@ import os
 import base64
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
+from scipy.interpolate import CubicSpline
+import numpy as np
 
 UPLOAD_FOLDER = '/static'
 ALLOWED_EXTENSIONS = {'txt', 'csv'}
@@ -37,6 +39,32 @@ def read(file_path):
 
   return leitura
 
+def cubic_spline_plot(data):
+    #Fazer plot do ficheiro
+    img = io.BytesIO()
+    x,y = [],[]
+
+    for i in data:
+        for j in i[:-3]:
+                x.append(float(j))
+
+    for i in data:
+        for j in i[1:-2]:
+                y.append(float(j))           
+
+    cs = CubicSpline(x,y,bc_type='natural')
+    x_continuo = np.linspace(min(x),max(x),1000)
+    plt.plot(x,y,'o',x_continuo,cs(x_continuo),'-')
+    plt.legend(['Data', 'Cubic Spline'], loc='best')
+    plt.savefig(img, format='png')
+    img.seek(0)
+    plt.clf()
+
+    plot_url = base64.b64encode(img.getvalue()).decode()
+
+    return plot_url
+
+
 @app.route("/")
 def home():
     return render_template("index.html")
@@ -61,7 +89,10 @@ def dados_input():
                 if (j == 1):
                     y.append(dados[j+num_cols*i])
 
-        plt.plot(x,y)
+        cs = CubicSpline(x,y,bc_type='natural')
+        x_continuo = np.linspace(min(x),max(x),1000)
+        plt.plot(x,y,'o',x_continuo,cs(x_continuo),'-')
+        plt.legend(['Data', 'Cubic Spline'], loc='best')
         img = io.BytesIO()
         plt.savefig(img, format='png')
         img.seek(0)
@@ -69,7 +100,7 @@ def dados_input():
 
         plot_url = base64.b64encode(img.getvalue()).decode()
         
-        return render_template("plot_custom.html", content = dados_string, graph = plot_url,size = length, num_cols = 4)
+        return render_template("plot_custom.html", content = dados_string, graph = plot_url, size = length, num_cols = 4)
 
 @app.route("/plot_excel", methods = ['POST'])
 def plot_excel():
@@ -78,28 +109,9 @@ def plot_excel():
         uploaded_file = request.files['file']
         if uploaded_file.filename != '':
             uploaded_file.save(uploaded_file.filename)
-
-        #Fazer plot do ficheiro
-        img = io.BytesIO()
         leitura = read(uploaded_file.filename)
-        x,y = [],[]
 
-        for i in leitura:
-            for j in i[:-3]:
-                    x.append(float(j))
-
-        for i in leitura:
-            for j in i[1:-2]:
-                    y.append(float(j))           
-
-        plt.plot(x,y)
-        plt.savefig(img, format='png')
-        img.seek(0)
-        plt.clf()
-
-        plot_url = base64.b64encode(img.getvalue()).decode()
-        
-        return render_template("plot_excel.html", content = leitura, graph = plot_url)
+        return render_template("plot_excel.html", content = leitura, graph = cubic_spline_plot(leitura))
 
 if __name__ == "__main__":
     app.run(debug = True)
