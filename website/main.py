@@ -50,7 +50,6 @@ def dados_input():
         dados = dados.replace(";"," ").replace(","," ").split()
         dados_string = dados
         dados = [float(i) for i in dados]
-        print(dados_string)
         x,y = [],[]
 
         num_cols = 4
@@ -75,7 +74,6 @@ def dados_input():
 @app.route("/plot_excel", methods = ['POST'])
 def plot_excel():
     if request.method == "POST" and request.files['file']:    
-        print("go")
         #Upload do ficheiro
         uploaded_file = request.files['file']
         if uploaded_file.filename != '':
@@ -84,7 +82,6 @@ def plot_excel():
         #Fazer plot do ficheiro
         img = io.BytesIO()
         leitura = read(uploaded_file.filename)
-        print(leitura)
         x,y = [],[]
 
         for i in leitura:
