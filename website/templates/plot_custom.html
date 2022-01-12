@@ -10,14 +10,23 @@
 <body>
     <h1>Fitteia 2.0</h1>
     <img src="data:image/jpeg;base64,{{ graph }}" alt="graph"  id="imgslot"/></img>
+    
+    <p>Parâmetros Livres: </p>
+    {%for i in range (0, num_parameters)%}
+        <p style = "margin : 2; padding-top : 2">
+            {{freepars[i]}}&ensp;&ensp;
+        </p>
+    {% endfor %}
+    
     <p>Dados Inseridos</p>
-        {% for i in range(0,size) %}
-            <p style="margin : 0; padding-top:0;">
+    {% for i in range(0,size) %}
+        <p style="margin : 0; padding-top:0;">
             {% for j in range(0,4) %}
                 {{content[j+num_cols*i]}}&ensp;&ensp;
             {% endfor%}
-            </p>
-        {% endfor %}
+        </p>
+    {% endfor %}
+        
 </body>
 
-</html>
+</html> 

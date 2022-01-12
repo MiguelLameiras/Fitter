@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 from scipy.interpolate import CubicSpline
 import numpy as np
+from scipy.optimize import curve_fit
 
 UPLOAD_FOLDER = '/static'
 ALLOWED_EXTENSIONS = {'txt', 'csv'}
@@ -52,11 +53,12 @@ def cubic_spline_plot(data):
         for j in i[1:-2]:
                 y.append(float(j))           
 
-    cs = CubicSpline(x,y,bc_type='natural')
+    parametros,seila = curve_fit(func, x, y)
+    #cs = CubicSpline(x,y,bc_type='natural')
     x_continuo = np.linspace(min(x),max(x),1000)
-    plt.plot(x,y,'o',x_continuo,cs(x_continuo),'-')
+    plt.plot(x,y,'o',x_continuo, func(x_continuo,*parametros), '-',)
     plt.legend(['Data', 'Cubic Spline'], loc='best')
-    plt.savefig(img, format='png')
+    plt.savefig(img, format='png') 
     img.seek(0)
     plt.clf()
 
@@ -64,6 +66,8 @@ def cubic_spline_plot(data):
 
     return plot_url
 
+def func(x,a,b):
+    return a+b*x 
 
 @app.route("/")
 def home():
@@ -89,9 +93,12 @@ def dados_input():
                 if (j == 1):
                     y.append(dados[j+num_cols*i])
 
-        cs = CubicSpline(x,y,bc_type='natural')
+        #cs = CubicSpline(x,y,bc_type='natural')
+        parametros,seila = curve_fit(func, x, y)
+        print("###################################")
+        print(parametros)
         x_continuo = np.linspace(min(x),max(x),1000)
-        plt.plot(x,y,'o',x_continuo,cs(x_continuo),'-')
+        plt.plot(x,y,'o',x_continuo, func(x_continuo,*parametros), '-',)
         plt.legend(['Data', 'Cubic Spline'], loc='best')
         img = io.BytesIO()
         plt.savefig(img, format='png')
@@ -100,7 +107,7 @@ def dados_input():
 
         plot_url = base64.b64encode(img.getvalue()).decode()
         
-        return render_template("plot_custom.html", content = dados_string, graph = plot_url, size = length, num_cols = 4)
+        return render_template("plot_custom.html", content = dados_string, graph = plot_url, size = length, num_cols = 4, freepars = parametros, num_parameters = len(parametros))
 
 @app.route("/plot_excel", methods = ['POST'])
 def plot_excel():
