@@ -32,3 +32,8 @@ input{
 textarea{
     color: #0F292F;
 }
+
+br{
+    background-color: #CB2D6F;
+    color:#CCCCCC;
+    font-size: medium;}

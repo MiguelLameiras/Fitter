@@ -40,31 +40,24 @@ def read(file_path):
 
   return leitura
 
-def cubic_spline_plot(data):
+def cubic_spline_plot(x,y):
     #Fazer plot do ficheiro
     img = io.BytesIO()
-    x,y = [],[]
-
-    for i in data:
-        for j in i[:-3]:
-                x.append(float(j))
-
-    for i in data:
-        for j in i[1:-2]:
-                y.append(float(j))           
-
-    parametros,seila = curve_fit(func, x, y)
     #cs = CubicSpline(x,y,bc_type='natural')
+    parametros,seila = curve_fit(func, x, y)
+    print("###################################")
+    print(parametros)
     x_continuo = np.linspace(min(x),max(x),1000)
     plt.plot(x,y,'o',x_continuo, func(x_continuo,*parametros), '-',)
     plt.legend(['Data', 'Cubic Spline'], loc='best')
-    plt.savefig(img, format='png') 
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
     img.seek(0)
     plt.clf()
 
     plot_url = base64.b64encode(img.getvalue()).decode()
 
-    return plot_url
+    return plot_url, parametros
 
 def func(x,a,b):
     return a+b*x 
@@ -93,21 +86,9 @@ def dados_input():
                 if (j == 1):
                     y.append(dados[j+num_cols*i])
 
-        #cs = CubicSpline(x,y,bc_type='natural')
-        parametros,seila = curve_fit(func, x, y)
-        print("###################################")
-        print(parametros)
-        x_continuo = np.linspace(min(x),max(x),1000)
-        plt.plot(x,y,'o',x_continuo, func(x_continuo,*parametros), '-',)
-        plt.legend(['Data', 'Cubic Spline'], loc='best')
-        img = io.BytesIO()
-        plt.savefig(img, format='png')
-        img.seek(0)
-        plt.clf()
+        temp_graph, temp_pars = cubic_spline_plot(x,y) 
 
-        plot_url = base64.b64encode(img.getvalue()).decode()
-        
-        return render_template("plot_custom.html", content = dados_string, graph = plot_url, size = length, num_cols = 4, freepars = parametros, num_parameters = len(parametros))
+        return render_template("plot_custom.html", content = dados_string, graph = temp_graph, size = length, num_cols = 4, freepars = temp_pars, num_pars = len(temp_pars))
 
 @app.route("/plot_excel", methods = ['POST'])
 def plot_excel():
@@ -116,9 +97,20 @@ def plot_excel():
         uploaded_file = request.files['file']
         if uploaded_file.filename != '':
             uploaded_file.save(uploaded_file.filename)
-        leitura = read(uploaded_file.filename)
+            leitura = read(uploaded_file.filename)
+            x,y = [],[]
 
-        return render_template("plot_excel.html", content = leitura, graph = cubic_spline_plot(leitura))
+            for i in leitura:
+                for j in i[:-3]:
+                    x.append(float(j))
+
+            for i in leitura:
+                for j in i[1:-2]:
+                        y.append(float(j))  
+
+            temp_graph, temp_pars = cubic_spline_plot(x,y)             
+
+            return render_template("plot_excel.html", content = leitura, graph = temp_graph, freepars = temp_pars, num_pars = len(temp_pars))
 
 if __name__ == "__main__":
     app.run(debug = True)
