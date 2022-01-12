@@ -7,6 +7,7 @@ Instalar o Flask e Matplotlib
 ```
 pip install flask
 pip install matplotlib
+pip install scypi
 ```
 
 Correr a app
