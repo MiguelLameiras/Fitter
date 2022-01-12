@@ -3,7 +3,7 @@ The art of fitting in python
 
 # Correr o site
 
-Instalar o Flask e Matplotlib
+Instalar dependecias
 ```
 pip install flask
 pip install matplotlib
