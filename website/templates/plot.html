@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Fitteia</title>
+</head>
+
+<body>
+    <div style = "border-radius:0px ;float:left" class="navbar">
+        <a class="active" href="/">HOME</a>
+        <a href="/about">ABOUT</a>
+        <a href="/" style="float:right;background-color: #ECCF67" >FITTEIA 2.0</a>
+    </div>
+
+    <div style = "background-color: #FFFFFF;">
+        <br> <br> <br>
+    </div>
+
+    <div style="background-color:#FFFFFF; width :40%; float:left" > 
+        <img src="data:image/jpeg;base64,{{ graph }}" alt="graph"  id="imgslot"/></img>
+    </div>
+    
+    <div style="width: 55%; float:right" >
+        <p>FIT REPORT: </p>
+        <p style="margin : 0; padding-top:0;">{% for i in fit_report %}{% if "\n" in i%}<br>{% endif %}{% if " " in i%}&nbsp;{% endif %}{{i}}{% endfor %}</p>
+        {% if(Custom == True)%}
+            <p>Dados Inseridos</p>
+            {% for i in range(0,size) %}
+                <p style="margin : 0; padding-top:0;">
+                {% for j in range(0,num_cols) %}
+                    {{content[i*num_cols + j]}}&ensp;
+                {% endfor%}    
+                </p>
+            {% endfor %}
+        {% endif %}
+        {% if(Custom == False) %}
+            <p>Dados lidos no ficheiro: "data.csv"</p>
+            {% for i in content %}
+                <p style="margin : 0px;">
+                {% for j in i %}
+                    {{j}}&ensp;
+                {% endfor%}
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+        
+</body>
+
+</html> 

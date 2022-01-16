@@ -70,9 +70,10 @@ textarea{
 }
 
 br{
-    background-color: #FFFFFF;
+    background-color: #E8EBF0;
     color: #363847;
     border-radius: 25px;
+    padding-left: 10px;
 }
 
 label{

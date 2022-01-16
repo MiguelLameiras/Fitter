@@ -1,3 +1,5 @@
+from ctypes import sizeof
+import re
 from flask import Flask, redirect, flash,url_for, render_template,request
 import matplotlib
 matplotlib.use('Agg')
@@ -10,6 +12,7 @@ from werkzeug.datastructures import  FileStorage
 from scipy.interpolate import CubicSpline
 import numpy as np
 from scipy.optimize import curve_fit
+from lmfit.models import ExpressionModel
 
 UPLOAD_FOLDER = '/static'
 ALLOWED_EXTENSIONS = {'txt', 'csv'}
@@ -45,17 +48,22 @@ def read(file_path):
 def Fit_to_Function(x,y):
     #Fazer plot do ficheiro
     img = io.BytesIO()
-    parametros,seila = curve_fit(func, x, y)
-    x_continuo = np.linspace(min(x),max(x),1000)
-    plt.plot(x,y,'o',x_continuo, func(x_continuo,*parametros), '-',)
+
+    function = ExpressionModel("a*x+b")
+    result = function.fit(y, x=x, a=0, b=0)
+
+    #parametros,seila = curve_fit(func, x, y)
+    #x_continuo = np.linspace(min(x),max(x),1000)
+    #plt.plot(x,y,'o',x_continuo, func(x_continuo,*parametros), '-',)
+    plt.plot(x,y,'o',x, result.best_fit, 'r-')
     plt.legend(['Data', 'Fit'], loc='best')
     plt.savefig(img, format='png')
     img.seek(0)
     plt.clf()
 
     plot_url = base64.b64encode(img.getvalue()).decode()
-
-    return plot_url, parametros
+    
+    return plot_url, result.fit_report()
 
 def Interpolate(x,y):
     #Fazer plot do ficheiro
@@ -85,39 +93,31 @@ def about():
 
 @app.route("/plot", methods = ['POST'])
 def plot():
+    x,y = [],[]
     if request.method == "POST" and request.form['FileorText'] == "Input":
         dados = request.form['data']
+        custom = True
 
         dados = str(dados)
         dados = dados.replace(";"," ").replace(","," ").split()
-        dados_string = dados
+        leitura = dados
         dados = [float(i) for i in dados]
-        x,y = [],[]
 
         num_cols = 4
-        length = int((len(dados))/num_cols)
-        for i in range(0,length):
+        for i in range(0,int((len(dados))/num_cols)):
             for j in range(0,4):
                 if (j == 0):
                     x.append(dados[j+num_cols*i])
                 if (j == 1):
                     y.append(dados[j+num_cols*i])
 
-        if request.form['FitorInterpolate'] == "Fit":
-            temp_graph, temp_pars = Fit_to_Function(x,y)    
-            return render_template("plot_custom.html", content = dados_string, graph = temp_graph, size = length, num_cols = 4, freepars = temp_pars, num_pars = len(temp_pars))
-
-        elif request.form['FitorInterpolate'] == "Interpolate":
-            temp_graph = Interpolate(x,y)   
-            return render_template("plot_custom.html", content = dados_string, graph = temp_graph, size = length, num_cols = 4, num_pars = 0) 
-
     elif request.method == "POST" and request.form['FileorText'] == "File":
+        custom = False
         #Upload do ficheiro
         uploaded_file = request.files['file']
         if uploaded_file.filename != '':
             uploaded_file.save(uploaded_file.filename)
             leitura = read(uploaded_file.filename)
-            x,y = [],[]
 
             for i in leitura:
                 for j in i[:-3]:
@@ -125,15 +125,15 @@ def plot():
 
             for i in leitura:
                 for j in i[1:-2]:
-                        y.append(float(j))  
+                    y.append(float(j))
 
-            if request.form['FitorInterpolate'] == "Fit":
-                temp_graph, temp_pars = Fit_to_Function(x,y)             
-                return render_template("plot_excel.html", content = leitura, graph = temp_graph, freepars = temp_pars, num_pars = len(temp_pars))
-            
-            elif request.form['FitorInterpolate'] == "Interpolate":
-                temp_graph = Interpolate(x,y)             
-                return render_template("plot_excel.html", content = leitura, graph = temp_graph, num_pars = 0) 
+    if request.form['FitorInterpolate'] == "Fit":
+        temp_graph, report = Fit_to_Function(x,y)             
+        return render_template("plot.html", content = leitura, graph = temp_graph, size = len(x) ,num_cols = 4, fit_report = report, Custom = custom)
+    
+    elif request.form['FitorInterpolate'] == "Interpolate":
+        temp_graph = Interpolate(x,y)             
+        return render_template("plot.html", content = leitura, graph = temp_graph, num_pars = 0, Custom = custom) 
 
 if __name__ == "__main__":
     app.run(debug = True)
