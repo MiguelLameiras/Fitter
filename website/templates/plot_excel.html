@@ -8,24 +8,39 @@
 </head>
 
 <body>
-    <h1>Fitteia 2.0</h1>
-    <img src="data:image/jpeg;base64,{{ graph }}" alt="graph"  id="imgslot"/></img>
+    <div style = "border-radius:0px ;float:left" class="navbar">
+        <a class="active" href="/">HOME</a>
+        <a href="/about">ABOUT</a>
+        <a href="/" style="float:right;background-color: #ECCF67" >FITTEIA 2.0</a>
+    </div>
 
-    <p>Parâmetros Livres: </p>
-    {%for i in range (0, num_pars)%}
-        <p style = "color: #CB2D6F !important; margin : 2; padding-top : 2">
-            a[{{i}}] - {{freepars[i]}}&ensp;&ensp;
-        </p>
-    {% endfor %}
-    
-    <p>Dados lidos no ficheiro: "data.csv"</p>
-        {% for i in content %}
-            <p style="margin : 0; padding-top:0;">
-            {% for j in i %}
-                {{j}}&ensp;&ensp;
-            {% endfor%}
-            </p>
-        {% endfor %}
+    <div style = "background-color: #FFFFFF;">
+        <br> <br> <br>
+    </div>
+
+    <div style="background-color:#FFFFFF; width: 40%; float:left" > 
+        <img src="data:image/jpeg;base64,{{ graph }}" alt="graph"  id="imgslot"/></img>
+    </div>
+
+    <div style="width: 55%; float:right" >
+        {%if(num_pars > 0)%} 
+            <p>   Parâmetros Livres: </p>
+            {%for i in range (0, num_pars)%}
+                <p style = "color: #CB2D6F !important; margin : 2; padding-top : 2">
+                    a[{{i}}] = {{freepars[i]}}&ensp;
+                </p>
+            {% endfor %}
+        {% endif %}
+        
+        <p>Dados lidos no ficheiro: "data.csv"</p>
+            {% for i in content %}
+                <p style="margin : 0px;">
+                {% for j in i %}
+                    {{j}}&ensp;
+                {% endfor%}
+                </p>
+            {% endfor %}
+    </div>
 </body>
 
 </html> 

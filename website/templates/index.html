@@ -11,24 +11,46 @@
 
     <!-- Importar o ficheiro .css-->
     <link rel="stylesheet" href="/static/style.css">
-    <title>Fitteia</title>
+    <title>Fitteia 2.0</title>
 </head>
 
 <body>
-    <h1>Fitteia 2.0</h1>
-    <p>The art of model fitting in python</p>
-    <form method="POST" action="/plot_excel" enctype="multipart/form-data">
-        <p>Fittar Dados a partir de ficheiro csv</p>
-        <p><input type="file" name="file"></p>
-        <p><input type="submit" value="Submeter Ficheiro"></p>
+    <div style = "border-radius:0px ;float:left" class="navbar">
+        <a class="active" href="/">HOME</a>
+        <a href="/about">ABOUT</a>
+        <a href="/" style="float:right;background-color: #ECCF67" >FITTEIA 2.0</a>
+    </div>
+
+    <div style = "background-color: #FFFFFF;">
+        <br> <br> <br>
+    </div>
+
+    <form method="POST" action="/plot" enctype="multipart/form-data" >  
+        <div style="width: 45%; float:right">
+            <!-- right content in here -->  
+            <div style="width: 90%; float:right">
+                <p>FITTAR DADOS</p>
+                <textarea name="data" style="width: 90%;height: 300px;">0.013   0.013   0.001   0.00193675&#10;0.022   0.022   0.001   0.00214897&#10;0.0259  0.026   0.001   0.00192737&#10;0.0359  0.035   0.001   0.00192829&#10;0.0495  0.048   0.001   0.00194921&#10;0.0559  0.054   0.001   0.00199176&#10;0.0658  0.064   0.001   0.0019645&#10;0.0727  0.07    0.001   0.00175412&#10;0.0757  0.072   0.001   0.00154443&#10;0.0992  0.096   0.001   0.00238442</textarea>
+                <p>FITTAR DADOS A PARTIR DE FICHEIRO {.txt, .csv}</p>
+                <p><input type="file" name="file"></p>
+            </div>
+        </div>
+
+        <div style="width: 50%; float:left">
+            <!-- left content in here -->
+            <br>
+            <input type="radio" name="FitorInterpolate" value="Fit">
+            <label> FITTAR</label>
+            <input type="radio" name="FitorInterpolate" value="Interpolate">
+            <label> INTERPOLAR</label><br><br>
+            <input type="radio" name="FileorText" value="Input">
+            <label> DADOS INTRODUZIDOS</label>
+            <input type="radio" name="FileorText" value="File">
+            <label> FICHEIRO SUBMETIDO</label><br><br>
+            <p><input type="submit" value="Gerar Gráfico"></p>
+        </div>
     </form>
-    <form method="POST" action="/plot_data" >
-        <input type="radio" name="option" id = "option1" value="Fittar" /> Fittar <br>          
-        <input type="radio" name="option" id = "option2" value="Interpolar" /> Interpolar <br>          
-        <p>Fittar Dados</p>
-        <textarea name="data"></textarea>
-        <input type="submit" value="Submeter Dados">
-    </form>
+
 </body> 
 
 </html>

@@ -1,39 +1,87 @@
+
+/*https://www.behance.net/gallery/111281909/Finely-template?tracking_source=search_projects_recommended%7CWeb%20Template*/
+
+/* Add a black background color to the top navigation */
+.navbar {
+    background-color: #ffffff80;
+    backdrop-filter: blur(4px);
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+}
+  
+  /* Links inside the navbar */
+.navbar a {
+    float: left;
+    display: block;
+    color: #363847;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+  
+  /* Change background on mouse-over */
+.navbar a:hover {
+    background: #ECCF67;
+    color: #E8EBF0;
+}
+
+  /* Main content */
+.main {
+    margin-top:30px; /* Add a top margin to avoid content overlay */
+}
 body {
-    background-color: #0F292F;
+    background-color: #FFFFFF;
     font-family: 'Roboto', sans-serif;
 }
   
 h1 {
-    background-color: #14A098;
-    color: #FEFFFF;
+    background-color: #ECCF67;
+    color: #363847;
     margin-left: 0px;
     padding: 20px;
     font-size: 40px;
     font-weight: 900;
+    border-radius: 25px;
 }
 
 p {
-    background-color: #0F292F;
-    color: #CCCCCC;
+    background-color: #E8EBF0;
+    color: #363847;
+    border-radius: 25px;
+    padding-left: 10px;
 }
 
 button{
-    background-color: #CB2D6F;
-    color:#CCCCCC;
+    background-color: #363847;
+    color:#FFFFFF;
     font-size: medium;
+    border-radius: 25px;
 }
 
 input{
-    background-color: #CB2D6F;
-    color:#CCCCCC;
+    background-color: #363847;
+    color:#FFFFFF;
     font-size: medium;
 }
 
 textarea{
-    color: #0F292F;
+    color: #363847;
 }
 
 br{
-    background-color: #CB2D6F;
-    color:#CCCCCC;
-    font-size: medium;}
+    background-color: #FFFFFF;
+    color: #363847;
+    border-radius: 25px;
+}
+
+label{
+    background-color: #E8EBF0;
+    color: #363847;
+    border-radius: 25px;
+}
+
+div{
+    background-color: #E8EBF0;
+    border-radius: 25px;
+}

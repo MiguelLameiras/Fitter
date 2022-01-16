@@ -1,4 +1,6 @@
 from flask import Flask, redirect, flash,url_for, render_template,request
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import io
 import os
@@ -40,17 +42,13 @@ def read(file_path):
 
   return leitura
 
-def cubic_spline_plot(x,y):
+def Fit_to_Function(x,y):
     #Fazer plot do ficheiro
     img = io.BytesIO()
-    #cs = CubicSpline(x,y,bc_type='natural')
     parametros,seila = curve_fit(func, x, y)
-    print("###################################")
-    print(parametros)
     x_continuo = np.linspace(min(x),max(x),1000)
     plt.plot(x,y,'o',x_continuo, func(x_continuo,*parametros), '-',)
-    plt.legend(['Data', 'Cubic Spline'], loc='best')
-    img = io.BytesIO()
+    plt.legend(['Data', 'Fit'], loc='best')
     plt.savefig(img, format='png')
     img.seek(0)
     plt.clf()
@@ -59,6 +57,21 @@ def cubic_spline_plot(x,y):
 
     return plot_url, parametros
 
+def Interpolate(x,y):
+    #Fazer plot do ficheiro
+    img = io.BytesIO()
+    cs = CubicSpline(x,y,bc_type='natural')
+    x_continuo = np.linspace(min(x),max(x),1000)
+    plt.plot(x,y,'o',x_continuo, cs(x_continuo), '-',)
+    plt.legend(['Data', 'Cubic Spline'], loc='best')
+    plt.savefig(img, format='png')
+    img.seek(0)
+    plt.clf()
+
+    plot_url = base64.b64encode(img.getvalue()).decode()
+
+    return plot_url
+
 def func(x,a,b):
     return a+b*x 
 
@@ -66,9 +79,13 @@ def func(x,a,b):
 def home():
     return render_template("index.html")
 
-@app.route("/plot_data", methods = ['POST'])
-def dados_input():
-    if request.method == "POST" and request.form['data']:
+@app.route("/about")
+def about():
+    return render_template("about.html")    
+
+@app.route("/plot", methods = ['POST'])
+def plot():
+    if request.method == "POST" and request.form['FileorText'] == "Input":
         dados = request.form['data']
 
         dados = str(dados)
@@ -86,13 +103,15 @@ def dados_input():
                 if (j == 1):
                     y.append(dados[j+num_cols*i])
 
-        temp_graph, temp_pars = cubic_spline_plot(x,y) 
+        if request.form['FitorInterpolate'] == "Fit":
+            temp_graph, temp_pars = Fit_to_Function(x,y)    
+            return render_template("plot_custom.html", content = dados_string, graph = temp_graph, size = length, num_cols = 4, freepars = temp_pars, num_pars = len(temp_pars))
 
-        return render_template("plot_custom.html", content = dados_string, graph = temp_graph, size = length, num_cols = 4, freepars = temp_pars, num_pars = len(temp_pars))
+        elif request.form['FitorInterpolate'] == "Interpolate":
+            temp_graph = Interpolate(x,y)   
+            return render_template("plot_custom.html", content = dados_string, graph = temp_graph, size = length, num_cols = 4, num_pars = 0) 
 
-@app.route("/plot_excel", methods = ['POST'])
-def plot_excel():
-    if request.method == "POST" and request.files['file']:    
+    elif request.method == "POST" and request.form['FileorText'] == "File":
         #Upload do ficheiro
         uploaded_file = request.files['file']
         if uploaded_file.filename != '':
@@ -108,9 +127,13 @@ def plot_excel():
                 for j in i[1:-2]:
                         y.append(float(j))  
 
-            temp_graph, temp_pars = cubic_spline_plot(x,y)             
-
-            return render_template("plot_excel.html", content = leitura, graph = temp_graph, freepars = temp_pars, num_pars = len(temp_pars))
+            if request.form['FitorInterpolate'] == "Fit":
+                temp_graph, temp_pars = Fit_to_Function(x,y)             
+                return render_template("plot_excel.html", content = leitura, graph = temp_graph, freepars = temp_pars, num_pars = len(temp_pars))
+            
+            elif request.form['FitorInterpolate'] == "Interpolate":
+                temp_graph = Interpolate(x,y)             
+                return render_template("plot_excel.html", content = leitura, graph = temp_graph, num_pars = 0) 
 
 if __name__ == "__main__":
     app.run(debug = True)
