@@ -13,6 +13,7 @@ from scipy.interpolate import CubicSpline
 import numpy as np
 from scipy.optimize import curve_fit
 from lmfit.models import ExpressionModel
+from lmfit import Parameters,model
 
 UPLOAD_FOLDER = '/static'
 ALLOWED_EXTENSIONS = {'txt', 'csv'}
@@ -45,17 +46,18 @@ def read(file_path):
 
   return leitura
 
-def Fit_to_Function(x,y):
+def Fit_to_Function(expression,x,y,parameters):
     #Fazer plot do ficheiro
     img = io.BytesIO()
-
-    function = ExpressionModel("a*x+b")
-    result = function.fit(y, x=x, a=0, b=0)
-
-    #parametros,seila = curve_fit(func, x, y)
-    #x_continuo = np.linspace(min(x),max(x),1000)
-    #plt.plot(x,y,'o',x_continuo, func(x_continuo,*parametros), '-',)
-    plt.plot(x,y,'o',x, result.best_fit, 'r-')
+    #Calcular o fit da função
+    function = ExpressionModel(expression)
+    params = parameters
+    result = function.fit(y, params, x=x)
+    #Criar uma função continua com o fit
+    x_continuo = np.linspace(min(x),max(x),1000)
+    new_prediction = result.eval(x=x_continuo)
+    #Plot do fit
+    plt.plot(x,y,'o',x_continuo,new_prediction, 'r')
     plt.legend(['Data', 'Fit'], loc='best')
     plt.savefig(img, format='png')
     img.seek(0)
@@ -80,8 +82,21 @@ def Interpolate(x,y):
 
     return plot_url
 
+def Scatter(x,y):
+    #Fazer plot do ficheiro
+    img = io.BytesIO()
+    plt.plot(x,y,'o')
+    plt.legend(['Data'], loc='best')
+    plt.savefig(img, format='png')
+    img.seek(0)
+    plt.clf()
+
+    plot_url = base64.b64encode(img.getvalue()).decode()
+
+    return plot_url
+
 def func(x,a,b):
-    return a+b*x 
+    return a*np.sin(b*x) 
 
 @app.route("/")
 def home():
@@ -128,11 +143,18 @@ def plot():
                     y.append(float(j))
 
     if request.form['FitorInterpolate'] == "Fit":
-        temp_graph, report = Fit_to_Function(x,y)             
-        return render_template("plot.html", content = leitura, graph = temp_graph, size = len(x) ,num_cols = 4, fit_report = report, Custom = custom)
+        parameters = Parameters()
+        for i in range(1,4):
+            parameters.add(request.form[str("param" + str(i))], value = float(request.form[str("value" + str(i))]))
+        temp_graph, report = Fit_to_Function(request.form['function'],x,y,parameters)             
+        return render_template("plot.html", content = leitura, graph = temp_graph, size = len(x) ,num_cols = 4, fit_report = report,function = request.form['function'], Custom = custom,Report = True)
     
     elif request.form['FitorInterpolate'] == "Interpolate":
         temp_graph = Interpolate(x,y)             
+        return render_template("plot.html", content = leitura, graph = temp_graph, num_pars = 0, Custom = custom)
+    
+    elif request.form['FitorInterpolate'] == "Plot":
+        temp_graph = Scatter(x,y)             
         return render_template("plot.html", content = leitura, graph = temp_graph, num_pars = 0, Custom = custom) 
 
 if __name__ == "__main__":

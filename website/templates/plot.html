@@ -23,8 +23,10 @@
     </div>
     
     <div style="width: 55%; float:right" >
-        <p>FIT REPORT: </p>
-        <p style="margin : 0; padding-top:0;">{% for i in fit_report %}{% if "\n" in i%}<br>{% endif %}{% if " " in i%}&nbsp;{% endif %}{{i}}{% endfor %}</p>
+        {% if(Report == True) %}
+            <p>FIT REPORT: </p>
+            <p style="margin : 0; padding-top:0;">[[MODEL]]<br>&ensp;&ensp;&ensp;&ensp;Model = {{function}}<br>{% for i in fit_report[28:] %}{% if "\n" in i%}<br>{% endif %}{% if " " in i%}&nbsp;{% endif %}{{i}}{% endfor %}</p>
+        {% endif %}
         {% if(Custom == True)%}
             <p>Dados Inseridos</p>
             {% for i in range(0,size) %}
