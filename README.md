@@ -1,5 +1,5 @@
 # Fitter
-Free, Oper-Source, Online data fitting tool
+Free, Open-Source, Online data fitting tool
 
 # Correr o site
 
