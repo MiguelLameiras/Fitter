@@ -18,7 +18,7 @@
     <div style = "border-radius:0px ;float:left" class="navbar">
         <a class="active" href="/">HOME</a>
         <a href="/about">ABOUT</a>
-        <a href="/" style="float:right;background-color: #ECCF67" >FITTEIA 2.0</a>
+        <a href="/" style="float:right;background-color: #ECCF67">FITTEIA 2.0</a>
     </div>
 
     <div style = "background-color: #FFFFFF;">
@@ -30,7 +30,7 @@
             <!-- right content in here -->  
             <div style="width: 90%; float:right">
                 <p>FITTAR DADOS</p>
-                <textarea name="data" style="width: 90%;height: 300px;">0.71   0.806   0.05   0.05&#10;1.51  -0.702   0.05   0.05&#10;2.31  -1.395   0.05   0.05&#10;3.11  -0.608   0.05   0.05&#10;3.91   0.889   0.05   0.05&#10;4.71   1.371   0.05   0.05&#10;5.51   0.391   0.05   0.05&#10;6.31  -1.051   0.05   0.05&#10;7.11  -1.314   0.05   0.05&#10;7.91  -0.162   0.05   0.05&#10;8.71   1.183   0.05   0.05&#10;9.51   1.225   0.05   0.05&#10;</textarea>
+                <textarea name="data" style="width: 90%;height: 300px;">0.71   0.806   0.2   0.3&#10;1.51  -0.702   0.2   0.3&#10;2.31  -1.395   0.2   0.3&#10;3.11  -0.608   0.2   0.3&#10;3.91   0.889   0.2   0.3&#10;4.71   1.371   0.2   0.3&#10;5.51   0.391   0.2   0.3&#10;6.31  -1.051   0.2   0.3&#10;7.11  -1.314   0.2   0.3&#10;7.91  -0.162   0.2   0.3&#10;8.71   1.183   0.2   0.3&#10;9.51   1.225   0.2   0.3&#10;</textarea>
                 <p>FITTAR DADOS A PARTIR DE FICHEIRO {.txt, .csv}</p>
                 <p><input type="file" name="file"></p>
             </div>
@@ -85,6 +85,8 @@
                     <br>
                 </div>
                 <input type="submit" value="Gerar Gráfico">
+                <input type = "checkbox" name = "errbar" value = "Yes">
+                <label> BARRAS DE ERRO </label>
             </div>
         </div>
     </form>
