@@ -1,5 +1,5 @@
 # Fitter
-The art of fitting in python
+Free, Oper-Source, Online data fitting tool
 
 # Correr o site
 
