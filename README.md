@@ -10,6 +10,7 @@ pip install matplotlib
 pip install scypi
 pip install lmfit
 pip install numpy
+sudo apt install texlive-latex-base
 ```
 
 Correr a app
