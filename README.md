@@ -1,5 +1,5 @@
 # Fitter
-The art of fitting in python
+Free, Open-Source, Online data fitting tool
 
 # Correr o site
 
@@ -10,6 +10,8 @@ pip install matplotlib
 pip install scypi
 pip install lmfit
 pip install numpy
+sudo apt install texlive-latex-base
+sudo apt-get install dvipng texlive-latex-extra texlive-fonts-recommended cm-super
 ```
 
 Correr a app
