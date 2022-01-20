@@ -84,22 +84,27 @@ def plot():
     checked = 'errbar' in request.form
     if(checked): checked = request.form["errbar"]
 
+    graph = Plot(x,y,errx,erry,error_bars = checked)
+
+    graph.Title = request.form['Title']
+    graph.xaxisTitle = request.form['X-Axis']
+    graph.yaxisTitle = request.form['Y-Axis']
+
     if request.form['FitorInterpolate'] == "Fit":
         parameters = Parameters()
         for i in range(1,4):
             parameters.add(request.form[str("param" + str(i))], value = float(request.form[str("value" + str(i))]))
-        graph = Plot(x,y,errx,erry,request.form['function'],parameters,checked)
-        temp_graph, report = graph.Fit_to_Function()             
+        graph.parameters = parameters
+        graph.expression = request.form['function']
+        temp_graph, report = graph.Make_Plot("Fit")             
         return render_template("plot.html", content = leitura, graph = temp_graph, size = len(x) ,num_cols = 4, fit_report = report,function = request.form['function'], Custom = custom,Report = True)
     
     elif request.form['FitorInterpolate'] == "Interpolate":
-        graph = Plot(x=x,y=y,xerr=errx,yerr = erry,error_bars = checked)
-        temp_graph = graph.Interpolate()             
+        temp_graph = graph.Make_Plot("Interpolate")            
         return render_template("plot.html", content = leitura, graph = temp_graph,size = len(x) ,num_cols = 4, num_pars = 0, Custom = custom)
     
     elif request.form['FitorInterpolate'] == "Plot":
-        graph = Plot(x=x,y=y,xerr=errx,yerr = erry,error_bars = checked)
-        temp_graph = graph.Scatter()             
+        temp_graph = graph.Make_Plot("Scatter")            
         return render_template("plot.html", content = leitura, graph = temp_graph,size = len(x) , num_cols = 4,num_pars = 0, Custom = custom) 
 
 if __name__ == "__main__":

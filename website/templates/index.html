@@ -29,9 +29,9 @@
         <div style="width: 45%; float:right">
             <!-- right content in here -->  
             <div style="width: 90%; float:right">
-                <p>FITTAR DADOS</p>
+                <p>DATA</p>
                 <textarea name="data" style="width: 90%;height: 300px;">0.71   0.806   0.2   0.3&#10;1.51  -0.702   0.2   0.3&#10;2.31  -1.395   0.2   0.3&#10;3.11  -0.608   0.2   0.3&#10;3.91   0.889   0.2   0.3&#10;4.71   1.371   0.2   0.3&#10;5.51   0.391   0.2   0.3&#10;6.31  -1.051   0.2   0.3&#10;7.11  -1.314   0.2   0.3&#10;7.91  -0.162   0.2   0.3&#10;8.71   1.183   0.2   0.3&#10;9.51   1.225   0.2   0.3&#10;</textarea>
-                <p>FITTAR DADOS A PARTIR DE FICHEIRO {.txt, .csv}</p>
+                <p>FIT DATA FROM FILE {.txt, .csv}</p>
                 <p><input type="file" name="file"></p>
             </div>
         </div>
@@ -43,28 +43,29 @@
             <div style="width: 93%; float:right">
                 <br>
                 <input type="radio" name="FitorInterpolate" value="Fit">
-                <label> FITTAR</label>
+                <label> FIT</label>
                 <input type="radio" name="FitorInterpolate" value="Interpolate">
-                <label> INTERPOLAR</label>
+                <label> INTERPOLATE</label>
                 <input type="radio" name="FitorInterpolate" value="Plot">
-                <label> PLOTTAR</label><br><br>
+                <label> PLOT DATA POINTS</label><br><br>
                 <input type="radio" name="FileorText" value="Input">
-                <label> DADOS INTRODUZIDOS</label>
+                <label> DATA IN TEXTAREA</label>
                 <input type="radio" name="FileorText" value="File">
-                <label> FICHEIRO SUBMETIDO</label><br><br>
+                <label> DATA FILE</label><br><br>
                 <div style="width: 10%; float:left">
-                    <label>FUNÇÃO</label>
+                    <label>FUNCTION</label>
+                    <br>
                 </div>
-                <div style="width: 90%; float:right">
+                <div style="width: 85%; float:right">
                     <textarea name="function" style="width: 90%;height: 20px;">a*sin(b*x + c)</textarea>
                     <br>
                 </div>
-                <label>PARAMETROS</label><br>
+                <label>PARAMETERS</label><br>
                 <div style="width: 30%; float:left">
                     <textarea name="param1" style="width: 90%;height: 20px;">a</textarea>
                 </div>
                 <div style="width: 60%; float:left">
-                    <label>VALOR INICIAL</label>
+                    <label>Initial Guess</label>
                     <textarea name="value1" style="width: 30%;height: 20px;">1</textarea>
                     <br>
                 </div>
@@ -72,7 +73,7 @@
                     <textarea name="param2" style="width: 90%;height: 20px;">b</textarea>
                 </div>
                 <div style="width: 60%; float:left">
-                    <label>VALOR INICIAL</label>
+                    <label>Initial Guess</label>
                     <textarea name="value2" style="width: 30%;height: 20px;">1</textarea>
                     <br>
                 </div>
@@ -80,13 +81,27 @@
                     <textarea name="param3" style="width: 90%;height: 20px;">c</textarea>
                 </div>
                 <div style="width: 60%; float:left">
-                    <label>VALOR INICIAL</label>
+                    <label>Initial Guess</label>
                     <textarea name="value3" style="width: 30%;height: 20px;">1</textarea>
                     <br>
                 </div>
-                <input type="submit" value="Gerar Gráfico">
-                <input type = "checkbox" name = "errbar" value = "Yes">
-                <label> BARRAS DE ERRO </label>
+                <br>
+                <div style="width: 90%; float:left">
+                    <label>Titles (written in Latex)</label><br>
+                    <textarea name="Title" style="width: 30%;height: 20px;">Rigid Pendulum</textarea>
+                    <label>Title</label>
+                    <br>
+                    <textarea name="X-Axis" style="width: 30%;height: 20px;">time $[s]$</textarea>
+                    <label>X Axis Label</label>
+                    <br>
+                    <textarea name="Y-Axis" style="width: 30%;height: 20px;">position $[\theta]$</textarea>
+                    <label>Y Axis Label</label>
+                    <br>
+                    <input type = "checkbox" name = "errbar" value = "Yes">
+                    <label> Error Bars</label>
+                    <br>
+                    <input type="submit" value="Make Plot">
+                </div>
             </div>
         </div>
     </form>
