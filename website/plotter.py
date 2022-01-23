@@ -12,6 +12,8 @@ class Plot:
         self.Title = Title
         self.xaxisTitle = xaxisTitle
         self.yaxisTitle = yaxisTitle
+        self.datacolor = 'black'
+        self.fitcolor = 'blue'
 
     def Make_Plot(self,plot):
         #Fazer plot do ficheiro
@@ -26,27 +28,29 @@ class Plot:
             new_prediction = result.eval(x=x_continuo)
             #Plot do fit
             if(self.error_bars == "Yes"):
-                plt.errorbar(self.x, self.y, xerr = self.xerr, yerr = self.yerr,fmt='o', capthick=1, capsize=5)
-                plt.plot(x_continuo,new_prediction, 'r')
+                plt.errorbar(self.x, self.y, xerr = self.xerr, yerr = self.yerr,fmt='.',color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
+                plt.plot(x_continuo,new_prediction, 'r', color = self.fitcolor)
             else:
-                plt.plot(self.x,self.y,'o',x_continuo,new_prediction, 'r')
+                plt.plot(self.x,self.y,'.',color = self.datacolor)
+                plt.plot(x_continuo,new_prediction, 'r',color = self.fitcolor)
 
         elif(plot == "Interpolate" ):      
             cs = CubicSpline(self.x,self.y,bc_type='natural')
             x_continuo = np.linspace(min(self.x),max(self.x),1000)
             #Plot do fit
             if(self.error_bars == "Yes"):
-                plt.errorbar(self.x, self.y, xerr = self.xerr, yerr = self.yerr,fmt='o', capthick=1, capsize=5)
-                plt.plot(x_continuo,cs(x_continuo), 'r')
+                plt.errorbar(self.x, self.y, xerr = self.xerr, yerr = self.yerr,fmt='.',color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
+                plt.plot(x_continuo,cs(x_continuo), 'r',color = self.fitcolor)
             else:
-                plt.plot(self.x,self.y,'o',x_continuo,cs(x_continuo), 'r')  
+                plt.plot(self.x,self.y,'.',color = self.datacolor)
+                plt.plot(x_continuo,cs(x_continuo), 'r',color = self.fitcolor)  
         
         if(plot == "Scatter" ):  
             #Plot do fit
             if(self.error_bars == "Yes"):
-                plt.errorbar(self.x, self.y, xerr = self.xerr, yerr = self.yerr,fmt='o', capthick=1, capsize=5)
+                plt.errorbar(self.x, self.y, xerr = self.xerr, yerr = self.yerr,fmt='.',color = self.datacolor ,ecolor = self.datacolor,capthick=1, capsize=5)
             else:
-                plt.plot(self.x,self.y,'o')      
+                plt.plot(self.x,self.y,'.',color = self.datacolor)      
 
         #Titulos dos eixos
         plt.title(self.Title, fontsize=18)
@@ -59,7 +63,7 @@ class Plot:
         ax.xaxis.set_minor_locator(tck.AutoMinorLocator())
         ax.yaxis.set_minor_locator(tck.AutoMinorLocator())
 
-        plt.savefig(img, format='png')
+        plt.savefig(img, format='png', dpi = 300)
         img.seek(0)
         plt.clf()
 

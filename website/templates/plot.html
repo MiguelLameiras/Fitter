@@ -19,10 +19,10 @@
     </div>
 
     <div style="background-color:#FFFFFF; width :40%; float:left" > 
-        <img src="data:image/jpeg;base64,{{ graph }}" alt="graph"  id="imgslot"/></img>
+        <img src="data:image/jpeg;base64,{{ graph }}" style = "height: 600px; width: 800px;" alt="graph"  id="imgslot"/></img>
     </div>
     
-    <div style="width: 55%; float:right" >
+    <div style="width: 45%; float:right" >
         {% if(Report == True) %}
             <p>FIT REPORT: </p>
             <p style="margin : 0; padding-top:0;">[[MODEL]]<br>&ensp;&ensp;&ensp;&ensp;Model = {{function}}<br>{% for i in fit_report[28:] %}{% if "\n" in i%}<br>{% endif %}{% if " " in i%}&nbsp;{% endif %}{{i}}{% endfor %}</p>

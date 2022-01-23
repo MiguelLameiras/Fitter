@@ -15,22 +15,23 @@
 </head>
 
 <body>
-    <div style = "border-radius:0px ;float:left" class="navbar">
+    <div style="border-radius:0px ;float:left" class="navbar">
         <a class="active" href="/">HOME</a>
         <a href="/about">ABOUT</a>
         <a href="/" style="float:right;background-color: #ECCF67">FITTEIA 2.0</a>
     </div>
 
-    <div style = "background-color: #FFFFFF;">
+    <div style="background-color: #FFFFFF;">
         <br> <br> <br>
     </div>
 
-    <form method="POST" action="/plot" enctype="multipart/form-data" >  
+    <form method="POST" action="/plot" enctype="multipart/form-data">
         <div style="width: 45%; float:right">
-            <!-- right content in here -->  
+            <!-- right content in here -->
             <div style="width: 90%; float:right">
                 <p>DATA</p>
-                <textarea name="data" style="width: 90%;height: 300px;">0.71   0.806   0.2   0.3&#10;1.51  -0.702   0.2   0.3&#10;2.31  -1.395   0.2   0.3&#10;3.11  -0.608   0.2   0.3&#10;3.91   0.889   0.2   0.3&#10;4.71   1.371   0.2   0.3&#10;5.51   0.391   0.2   0.3&#10;6.31  -1.051   0.2   0.3&#10;7.11  -1.314   0.2   0.3&#10;7.91  -0.162   0.2   0.3&#10;8.71   1.183   0.2   0.3&#10;9.51   1.225   0.2   0.3&#10;</textarea>
+                <textarea name="data"
+                    style="width: 90%;height: 300px;">0.71   0.806   0.2   0.3&#10;1.51  -0.702   0.2   0.3&#10;2.31  -1.395   0.2   0.3&#10;3.11  -0.608   0.2   0.3&#10;3.91   0.889   0.2   0.3&#10;4.71   1.371   0.2   0.3&#10;5.51   0.391   0.2   0.3&#10;6.31  -1.051   0.2   0.3&#10;7.11  -1.314   0.2   0.3&#10;7.91  -0.162   0.2   0.3&#10;8.71   1.183   0.2   0.3&#10;9.51   1.225   0.2   0.3&#10;</textarea>
                 <p>FIT DATA FROM FILE {.txt, .csv}</p>
                 <p><input type="file" name="file"></p>
             </div>
@@ -97,15 +98,41 @@
                     <textarea name="Y-Axis" style="width: 30%;height: 20px;">position $[\theta]$</textarea>
                     <label>Y Axis Label</label>
                     <br>
-                    <input type = "checkbox" name = "errbar" value = "Yes">
+                    
+                    <div>
+
+                        <!-- https://personal.sron.nl/~pault/ -->
+                        <label>Colors</label><br>
+                        <label for="data_colors">Data:</label>
+                        <select name="data_colors" id="data_colors" style ="width: 20px">
+                            <option value="#984ea3" style = "background-color: #984ea3;"></option>
+                            <option value="#e41a1c" style = "background-color: #e41a1c;"></option>
+                            <option value="#ff7f00" style = "background-color: #ff7f00;"></option>
+                            <option value="#4daf4a" style = "background-color: #4daf4a;"></option>
+                            <option value="#377eb8" style = "background-color: #377eb8;"></option>
+                            <option value="#000000" style = "background-color: #000000;"></option>
+                        </select>
+                        <label for="fit_colors">Fit:</label>
+                        <select name="fit_colors" id="fit_colors" style ="width: 20px">
+                            <option value="#984ea3" style = "background-color: #984ea3;"></option>
+                            <option value="#e41a1c" style = "background-color: #e41a1c;"></option>
+                            <option value="#ff7f00" style = "background-color: #ff7f00;"></option>
+                            <option value="#4daf4a" style = "background-color: #4daf4a;"></option>
+                            <option value="#377eb8" style = "background-color: #377eb8;"></option>
+                            <option value="#000000" style = "background-color: #000000;"></option>
+                        </select>
+                    </div>
+
+                    <input type="checkbox" name="errbar" value="Yes">
                     <label> Error Bars</label>
                     <br>
                     <input type="submit" value="Make Plot">
+
                 </div>
             </div>
         </div>
     </form>
 
-</body> 
+</body>
 
 </html>

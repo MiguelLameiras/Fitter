@@ -90,6 +90,9 @@ def plot():
     graph.xaxisTitle = request.form['X-Axis']
     graph.yaxisTitle = request.form['Y-Axis']
 
+    graph.datacolor = request.form['data_colors']
+    graph.fitcolor = request.form['fit_colors']
+
     if request.form['FitorInterpolate'] == "Fit":
         parameters = Parameters()
         for i in range(1,4):
