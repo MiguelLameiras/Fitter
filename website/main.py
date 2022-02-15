@@ -81,10 +81,33 @@ def plot():
                 for j in i[3:]:
                     erry.append(float(j))
 
-    checked = 'errbar' in request.form
-    if(checked): checked = request.form["errbar"]
+    xerror = 'xerror' in request.form
+    if(xerror): xerror = request.form["xerror"]
 
-    graph = Plot(x,y,errx,erry,error_bars = checked)
+    yerror = 'yerror' in request.form
+    if(yerror): yerror = request.form["yerror"]
+
+    xlog_checkbox = 'xlog' in request.form
+    if(xlog_checkbox): xlog_checkbox = request.form["xlog"]
+
+    ylog_checkbox = 'ylog' in request.form
+    if(ylog_checkbox): ylog_checkbox = request.form["ylog"]
+
+    graph = Plot(x,y,errx,erry,xerror,yerror,xlog = xlog_checkbox, ylog = ylog_checkbox)
+
+    xauto = 'xauto' in request.form
+    if(xauto): graph.xauto = request.form["xauto"]
+    else:
+        graph.xmin = float(request.form['xmin'])
+        graph.xmax = float(request.form['xmax'])
+        graph.xticks = float(request.form['xticks'])
+
+    yauto = 'yauto' in request.form
+    if(yauto): graph.yauto = request.form["yauto"]
+    else:
+        graph.ymin = float(request.form['ymin'])
+        graph.ymax = float(request.form['ymax'])
+        graph.yticks = float(request.form['yticks'])
 
     graph.Title = request.form['Title']
     graph.xaxisTitle = request.form['X-Axis']
@@ -95,7 +118,7 @@ def plot():
 
     if request.form['FitorInterpolate'] == "Fit":
         parameters = Parameters()
-        for i in range(1,4):
+        for i in range(1,int(request.form['num_pars']) + 1):
             parameters.add(request.form[str("param" + str(i))], value = float(request.form[str("value" + str(i))]))
         graph.parameters = parameters
         graph.expression = request.form['function']
