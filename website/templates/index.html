@@ -17,6 +17,8 @@
 <body>
     <div style="border-radius:0px ;float:left" class="navbar">
         <a class="active" href="/">HOME</a>
+        <a class="active" href="/">FIT ODE's</a>
+        <a class="active" href="/">FIT PDE's</a>
         <a href="/about">ABOUT</a>
         <a href="/" style="float:right;background-color: #ECCF67">FITTEIA 2.0</a>
     </div>
@@ -32,11 +34,74 @@
         <div style="width: 45%; float:right">
             <!-- right content in here -->
             <div style="width: 90%; float:right">
-                <p>Data</p>
+                <br>
+                <label>Data</label><br><br>
+                <label for="data_type">Data Type:</label>
+                <select name="data_type" id="data_type" style="width: 90px">
+                    <option value="2">X,Y</option>
+                    <option value="4"selected>X,Y,Ex,Ey</option>
+                </select>
+                <br><br>
+                <div style="width: 30%; float:left">
+                    <!-- https://personal.sron.nl/~pault/ -->
+                    <label>Colors</label><br>
+                    <label for="data_colors">Data:</label>
+                    <select name="data_colors" id="data_colors" style="width: 20px">
+                        <option value="#984ea3" style="background-color: #984ea3;"></option>
+                        <option value="#e41a1c" style="background-color: #e41a1c;"></option>
+                        <option value="#ff7f00" style="background-color: #ff7f00;"></option>
+                        <option value="#4daf4a" style="background-color: #4daf4a;"></option>
+                        <option value="#377eb8" style="background-color: #377eb8;"></option>
+                        <option value="#000000" style="background-color: #000000;" selected></option>
+                    </select>
+                    <label for="fit_colors">Fit:</label>
+                    <select name="fit_colors" id="fit_colors" style="width: 20px">
+                        <option value="#984ea3" style="background-color: #984ea3;"></option>
+                        <option value="#e41a1c" style="background-color: #e41a1c;" selected></option>
+                        <option value="#ff7f00" style="background-color: #ff7f00;"></option>
+                        <option value="#4daf4a" style="background-color: #4daf4a;"></option>
+                        <option value="#377eb8" style="background-color: #377eb8;"></option>
+                        <option value="#000000" style="background-color: #000000;"></option>
+                    </select>
+                </div>
+                <div style="width: 30%; float:left">
+                    <!-- https://personal.sron.nl/~pault/ -->
+                    <label>Marker</label><br>
+                    <label for="marker_style">Style:</label>
+                    <select name="marker_style" id="marker_style" style="width: 40px">
+                        <option value="." selected>.</option>
+                        <option value="," >,</option>
+                        <option value="o" >o</option>
+                        <option value="v" >v</option>
+                        <option value="^" >^</option>
+                        <option value="<" ><</option>
+                        <option value=">" >></option>
+                        <option value="1" >1</option>
+                        <option value="2" >2</option>
+                        <option value="3" >3</option>
+                        <option value="4" >4</option>
+                        <option value="8" >8</option>
+                        <option value="s" >s</option>
+                        <option value="p" >p</option>
+                        <option value="P" >P</option>
+                        <option value="*" >*</option>
+                        <option value="h" >h</option>
+                        <option value="H" >H</option>
+                        <option value="+" >+</option>
+                        <option value="x" >x</option>
+                        <option value="X" >X</option>
+                        
+                    </select>
+                    <label for="marker_size">Size:</label>
+                    <textarea name="marker_size" id="marker_size" style="width: 30%;height: 15px;">3</textarea>
+                </div>
                 <textarea name="data"
                     style="width: 90%;height: 300px;">0.71   0.806   0.2   0.3&#10;1.51  -0.702   0.2   0.3&#10;2.31  -1.395   0.2   0.3&#10;3.11  -0.608   0.2   0.3&#10;3.91   0.889   0.2   0.3&#10;4.71   1.371   0.2   0.3&#10;5.51   0.391   0.2   0.3&#10;6.31  -1.051   0.2   0.3&#10;7.11  -1.314   0.2   0.3&#10;7.91  -0.162   0.2   0.3&#10;8.71   1.183   0.2   0.3&#10;9.51   1.225   0.2   0.3&#10;</textarea>
-                <p>Fit Data from File {.txt, .csv}</p>
-                <p><input type="file" name="file"></p>
+                <br><br>
+                <label>Fit Data from File {.txt, .csv}</label>
+                <br><br>
+                <label><input type="file" name="file"></label>
+                <br><br>
             </div>
         </div>
 
@@ -126,8 +191,17 @@
                     <label>Title(written in Latex)</label><br>
                     <textarea name="Title" style="width: 30%;height: 20px;">Rigid Pendulum</textarea>
                     <br>
+                    <label>Legend</label>
+                    <input type="checkbox" style="height: 20px;" name="legend" value="1" checked="checked">
+                    <br>
                     <label> Axis</label><br>
-                    <div style="width: 30%; float:left">
+                    <div style="width: 4%; float:left">
+                        <br>
+                        <label>X</label><br>
+                        <br>
+                        <label>Y</label><br>
+                    </div>
+                    <div style="width: 25%; float:left">
                         <label>Title</label><br>
                         <textarea name="X-Axis" style="width: 90%;height: 20px;">time $[s]$</textarea>
                         <br>
@@ -170,38 +244,13 @@
                     <div style="width: 12%; float:left">
                         <label>Error Bars</label>
                         <br>
-                        <input type="checkbox" style="height: 20px;" name="xerror" value="Yes">
+                        <input type="checkbox" style="height: 20px;" name="xerror" value="Yes" checked="checked">
                         <br>
                         <input type="checkbox" style="height: 20px;" name="yerror" value="Yes">
                     </div>
-                    <br>
                 </div>
-
-                <div style="width: 90%; float:left">
-                    <!-- https://personal.sron.nl/~pault/ -->
-                    <label>Colors</label><br>
-                    <label for="data_colors">Data:</label>
-                    <select name="data_colors" id="data_colors" style="width: 20px">
-                        <option value="#984ea3" style="background-color: #984ea3;"></option>
-                        <option value="#e41a1c" style="background-color: #e41a1c;"></option>
-                        <option value="#ff7f00" style="background-color: #ff7f00;"></option>
-                        <option value="#4daf4a" style="background-color: #4daf4a;"></option>
-                        <option value="#377eb8" style="background-color: #377eb8;"></option>
-                        <option value="#000000" style="background-color: #000000;"></option>
-                    </select>
-                    <label for="fit_colors">Fit:</label>
-                    <select name="fit_colors" id="fit_colors" style="width: 20px">
-                        <option value="#984ea3" style="background-color: #984ea3;"></option>
-                        <option value="#e41a1c" style="background-color: #e41a1c;"></option>
-                        <option value="#ff7f00" style="background-color: #ff7f00;"></option>
-                        <option value="#4daf4a" style="background-color: #4daf4a;"></option>
-                        <option value="#377eb8" style="background-color: #377eb8;"></option>
-                        <option value="#000000" style="background-color: #000000;"></option>
-                    </select>
-                    <br><br>
-                    <input type="submit" value="Make Plot">
-                    <br><br>
-                </div>
+                <input type="submit" value="Make Plot">
+                <br><br>
             </div>
         </div>
     </form>

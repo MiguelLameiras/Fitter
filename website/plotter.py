@@ -26,6 +26,9 @@ class Plot:
         self.yauto = 0
         self.xticks = 1
         self.yticks = 1
+        self.legend = 0
+        self.marker_style = "."
+        self.marker_size = 3
 
     def Make_Plot(self,plot):
         #Fazer plot do ficheiro
@@ -40,16 +43,16 @@ class Plot:
             new_prediction = result.eval(x=x_continuo)
             #Plot do fit
             if(self.xerror == "Yes" and self.yerror == "Yes" ):
-                plt.errorbar(self.x, self.y, xerr = self.xerr, yerr = self.yerr,markersize=3,fmt='.',color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
+                plt.errorbar(self.x, self.y, xerr = self.xerr, yerr = self.yerr,markersize=self.marker_size,fmt=self.marker_style,color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
                 plt.plot(x_continuo,new_prediction, 'r',linewidth=1.3, color = self.fitcolor)
             elif(self.xerror == "Yes"):
-                plt.errorbar(self.x, self.y, xerr = self.xerr,markersize=3,fmt='.',color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
+                plt.errorbar(self.x, self.y, xerr = self.xerr,markersize=self.marker_size,fmt=self.marker_style,color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
                 plt.plot(x_continuo,new_prediction, 'r',linewidth=1.3, color = self.fitcolor)
             elif(self.yerror == "Yes"):
-                plt.errorbar(self.x, self.y, yerr = self.yerr,markersize=3,fmt='.',color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
+                plt.errorbar(self.x, self.y, yerr = self.yerr,markersize=self.marker_size,fmt=self.marker_style,color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
                 plt.plot(x_continuo,new_prediction, 'r',linewidth=1.3, color = self.fitcolor)
             else:
-                plt.plot(self.x,self.y,'.', markersize=3,color = self.datacolor)
+                plt.plot(self.x,self.y,self.marker_style, markersize=self.marker_size,color = self.datacolor)
                 plt.plot(x_continuo,new_prediction, 'r',linewidth=1.3,color = self.fitcolor)
 
         elif(plot == "Interpolate" ):      
@@ -57,35 +60,35 @@ class Plot:
             x_continuo = np.linspace(min(self.x),max(self.x),1000)
             #Plot do fit
             if(self.xerror == "Yes" and self.yerror == "Yes" ):
-                plt.errorbar(self.x, self.y, xerr = self.xerr, yerr = self.yerr,fmt = '.', markersize=3,color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
+                plt.errorbar(self.x, self.y, xerr = self.xerr, yerr = self.yerr,fmt = self.marker_style, markersize=self.marker_size,color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
                 plt.plot(x_continuo,cs(x_continuo), 'r',color = self.fitcolor)
             elif(self.xerror == "Yes"):
-                plt.errorbar(self.x, self.y, xerr = self.xerr,fmt = '.', markersize=3,color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
+                plt.errorbar(self.x, self.y, xerr = self.xerr,fmt = self.marker_style, markersize=self.marker_size,color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
                 plt.plot(x_continuo,cs(x_continuo), 'r',color = self.fitcolor)
             elif(self.yerror == "Yes"):
-                plt.errorbar(self.x, self.y, yerr = self.yerr,fmt = '.', markersize=3,color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
+                plt.errorbar(self.x, self.y, yerr = self.yerr,fmt = self.marker_style, markersize=self.marker_size,color = self.datacolor ,ecolor = self.datacolor, capthick=1, capsize=5)
                 plt.plot(x_continuo,cs(x_continuo), 'r',color = self.fitcolor)
             else:
-                plt.plot(self.x,self.y, '.',markersize=3,color = self.datacolor)
+                plt.plot(self.x,self.y, self.marker_style,markersize=self.marker_size,color = self.datacolor)
                 plt.plot(x_continuo,cs(x_continuo), 'r',color = self.fitcolor)  
         
         if(plot == "Scatter" ):  
             #Plot do fit
             if(self.xerror == "Yes" and self.yerror == "Yes" ):
-                plt.errorbar(self.x, self.y,markersize=3, xerr = self.xerr, yerr = self.yerr,fmt='.',color = self.datacolor ,ecolor = self.datacolor,capthick=1, capsize=5)
+                plt.errorbar(self.x, self.y,markersize=self.marker_size, xerr = self.xerr, yerr = self.yerr,fmt=self.marker_style,color = self.datacolor ,ecolor = self.datacolor,capthick=1, capsize=5)
             elif(self.xerror == "Yes"):
-                plt.errorbar(self.x, self.y,markersize=3, xerr = self.xerr,fmt='.',color = self.datacolor ,ecolor = self.datacolor,capthick=1, capsize=5)
+                plt.errorbar(self.x, self.y,markersize=self.marker_size, xerr = self.xerr,fmt=self.marker_style,color = self.datacolor ,ecolor = self.datacolor,capthick=1, capsize=5)
             elif(self.yerror == "Yes"):
-                plt.errorbar(self.x, self.y,markersize=3, yerr = self.yerr,fmt='.',color = self.datacolor ,ecolor = self.datacolor,capthick=1, capsize=5)
+                plt.errorbar(self.x, self.y,markersize=self.marker_size, yerr = self.yerr,fmt=self.marker_style,color = self.datacolor ,ecolor = self.datacolor,capthick=1, capsize=5)
             else:
-                plt.plot(self.x,self.y, '.',markersize=3,color = self.datacolor)      
+                plt.plot(self.x,self.y, self.marker_style,markersize=self.marker_size,color = self.datacolor)      
 
         #Titulos dos eixos
         plt.title(self.Title, fontsize=18)
         plt.xlabel(self.xaxisTitle, fontsize=18)
         plt.ylabel(self.yaxisTitle, fontsize=18)
         #Adicionar Legenda
-        plt.legend(['Arduino Data', 'Fit'], loc='best')
+        if(self.legend == 1):  plt.legend(['Fit', 'Data'], loc='best')
 
         ax = plt.gca()
         if(self.xlog): ax.set_xscale(self.xlog)

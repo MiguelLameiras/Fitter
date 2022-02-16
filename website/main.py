@@ -42,6 +42,7 @@ def about():
 @app.route("/plot", methods = ['POST'])
 def plot():
     x,y,errx,erry = [],[],[],[]
+    num_cols = int(request.form['data_type'])
     if request.method == "POST" and request.form['FileorText'] == "Input":
         dados = request.form['data']
         custom = True
@@ -51,9 +52,8 @@ def plot():
         leitura = dados
         dados = [float(i) for i in dados]
 
-        num_cols = 4
         for i in range(0,int((len(dados))/num_cols)):
-            for j in range(0,4):
+            for j in range(0,num_cols):
                 if (j == 0):
                     x.append(dados[j+num_cols*i])
                 if (j == 1):
@@ -80,7 +80,7 @@ def plot():
                     errx.append(float(j))
                 for j in i[3:]:
                     erry.append(float(j))
-
+    
     xerror = 'xerror' in request.form
     if(xerror): xerror = request.form["xerror"]
 
@@ -95,6 +95,9 @@ def plot():
 
     graph = Plot(x,y,errx,erry,xerror,yerror,xlog = xlog_checkbox, ylog = ylog_checkbox)
 
+    legend = 'legend' in request.form
+    if(legend): graph.legend = int(request.form["legend"])
+
     xauto = 'xauto' in request.form
     if(xauto): graph.xauto = request.form["xauto"]
     else:
@@ -108,6 +111,9 @@ def plot():
         graph.ymin = float(request.form['ymin'])
         graph.ymax = float(request.form['ymax'])
         graph.yticks = float(request.form['yticks'])
+
+    graph.marker_size = int(request.form['marker_size'])
+    graph.marker_style = request.form['marker_style']
 
     graph.Title = request.form['Title']
     graph.xaxisTitle = request.form['X-Axis']
